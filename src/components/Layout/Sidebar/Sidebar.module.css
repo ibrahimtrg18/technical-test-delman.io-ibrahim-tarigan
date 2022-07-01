@@ -1,0 +1,60 @@
+.sidebar {
+  min-height: calc(100vh - 3.5rem);
+  overflow: hidden;
+}
+
+.sidebarShrink {
+  flex: 0 0 3.5rem;
+}
+
+.sidebarExpand {
+  flex: 0 0 14rem;
+}
+
+.sidebar .sidebarMenuList {
+  list-style: none;
+  border-right: 1px solid var(--chakra-colors-gray-100);
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItem {
+  position: relative;
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItem a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItem svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 1.25rem;
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItem:hover svg {
+  color: var(--chakra-colors-blue-600);
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItem:hover:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0.225rem;
+  background-color: var(--chakra-colors-blue-600);
+}
+
+.sidebar .sidebarMenuList .sidebarMenuItemActive:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0.225rem;
+  background-color: var(--chakra-colors-blue-600);
+}
