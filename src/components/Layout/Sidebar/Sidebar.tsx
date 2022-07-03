@@ -29,8 +29,8 @@ const Sidebar: FC<SidebarProps> = (props) => {
             })}
             onClick={() => menu.onClick()}
           >
-            <Link href="">
-              <a>
+            <Link href={menu.link}>
+              <a href={menu.link}>
                 <FontAwesomeIcon
                   icon={menu.icon}
                   color={
