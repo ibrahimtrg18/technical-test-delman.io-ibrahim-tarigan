@@ -12,3 +12,23 @@ html,
 body {
   font-family: IBM Plex Sans;
 }
+
+.text-right {
+  text-align: right;
+}
+
+table th,
+table td {
+  border: 1px solid var(--chakra-colors-gray-300);
+  padding: 0.5rem;
+}
+
+table th {
+  background-color: var(--chakra-colors-gray-200);
+}
+
+table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
