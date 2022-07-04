@@ -34,9 +34,11 @@ const Main: FC<MainProps> = (props) => {
       <div className={styles.container}>
         <Box padding="0.5rem 0.5rem" borderBottom="1px" borderColor="gray.200">
           <Heading as="h1" size="lg">
-            Sales Dashboard
+            {menus.find((menu) => menu.title === menuActive)?.heading}
           </Heading>
-          <Text>Sales Dashboard</Text>
+          <Text>
+            {menus.find((menu) => menu.title === menuActive)?.subHeading}
+          </Text>
         </Box>
         <Box padding="0.5rem 0.5rem">{children}</Box>
       </div>

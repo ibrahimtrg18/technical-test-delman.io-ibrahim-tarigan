@@ -9,6 +9,8 @@ export interface IMenu {
   icon: IconProp;
   title: string;
   link: string;
+  heading?: string;
+  subHeading?: string;
   onClick: () => void;
 }
 
@@ -30,6 +32,18 @@ const Layout: FC<LayoutProps> = (props) => {
       icon: "dashboard",
       title: "Dashboard",
       link: "/",
+      heading: "Sales Dashboard",
+      subHeading: "List of Sales Data",
+      onClick: function () {
+        setMenuActive(this.title);
+      },
+    },
+    {
+      icon: "users",
+      title: "Users",
+      link: "/users",
+      heading: "Users Data",
+      subHeading: "List of Users Data",
       onClick: function () {
         setMenuActive(this.title);
       },
