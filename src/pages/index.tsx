@@ -5,7 +5,7 @@ import APIClient from "../apis/ApiClient";
 import { Sale } from "../ts/intefaces";
 import VirtualTable from "../components/Table/VirtualTable";
 
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Index.module.css";
 
 interface HomeProps {
   sales: Array<Sale>;
@@ -14,11 +14,9 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = (props) => {
   const { sales } = props;
 
-  /** The Row component. This should be a table row, and noted that we don't use the style that regular `react-window` examples pass in.*/
   const Row = ({ index }: { index: number }) => {
     return (
       <tr>
-        {/** Make sure your table rows are the same height as what you passed into the list... */}
         <td style={{ maxWidth: "150px" }} className="text-right">
           {sales[index].id}
         </td>
@@ -81,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       sales: res.data,
-    }, // will be passed to the page component as props
+    },
   };
 };
 
