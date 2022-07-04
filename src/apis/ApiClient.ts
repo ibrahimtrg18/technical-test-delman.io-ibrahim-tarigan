@@ -17,7 +17,18 @@ class ApiClient {
 
       return resJson;
     } catch (err) {
-      console.log(err);
+      throw err;
+    }
+  }
+
+  async getUsers() {
+    try {
+      const res = await fetch(`${this.baseUrl}/users`);
+      const resJson: Response = await res.json();
+
+      return resJson;
+    } catch (err) {
+      throw err;
     }
   }
 }
