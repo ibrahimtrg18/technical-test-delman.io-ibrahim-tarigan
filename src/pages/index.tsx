@@ -19,15 +19,15 @@ const Home: NextPage<HomeProps> = (props) => {
     return (
       <tr>
         {/** Make sure your table rows are the same height as what you passed into the list... */}
-        <td className="text-right" style={{ maxWidth: "150px" }}>
+        <td style={{ maxWidth: "150px" }} className="text-right">
           {sales[index].id}
         </td>
         <td style={{ maxWidth: "150px" }}>{sales[index].name}</td>
         <td style={{ maxWidth: "150px" }}>{sales[index].sales_id}</td>
-        <td className="text-right" style={{ maxWidth: "150px" }}>
+        <td style={{ maxWidth: "150px" }} className="text-right">
           {sales[index].item_id}
         </td>
-        <td className="text-right" style={{ maxWidth: "150px" }}>
+        <td style={{ maxWidth: "150px" }} className="text-right">
           {sales[index].qty}
         </td>
         <td style={{ maxWidth: "150px" }}>{sales[index].consumen_name}</td>
@@ -41,11 +41,11 @@ const Home: NextPage<HomeProps> = (props) => {
       <Head>
         <title>Dashboard | Sales Data</title>
       </Head>
-      <div className="table">
+      {sales && (
         <VirtualTable
-          height={300}
           width="100%"
-          itemCount={1000}
+          height={550}
+          itemCount={sales.length}
           itemSize={10}
           header={
             <thead>
@@ -62,7 +62,7 @@ const Home: NextPage<HomeProps> = (props) => {
           }
           row={Row}
         />
-      </div>
+      )}
     </Box>
   );
 };
