@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
 import Draggable from "react-draggable";
@@ -16,32 +16,47 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = (props) => {
   const { sales } = props;
+  const salesKeys = useMemo(() => Object.keys(sales[0]), []);
   const [widthColumns, setWidthColumns] = useState(
-    Array(Object.keys(sales[0]).length).fill(150)
+    Array(salesKeys.length).fill(150)
   );
 
   const Row = ({ index }: { index: number }) => {
     return (
       <tr>
-        <td style={{ maxWidth: widthColumns[0] }} className="text-right">
-          {sales[index].id}
-        </td>
-        <td style={{ maxWidth: widthColumns[1] }}>{sales[index].name}</td>
-        <td style={{ maxWidth: widthColumns[2] }}>{sales[index].sales_id}</td>
-        <td style={{ maxWidth: widthColumns[3] }} className="text-right">
-          {sales[index].item_id}
-        </td>
-        <td style={{ maxWidth: widthColumns[4] }} className="text-right">
-          {sales[index].qty}
-        </td>
-        <td style={{ maxWidth: widthColumns[5] }}>
-          {sales[index].consumen_name}
-        </td>
-        <td style={{ maxWidth: widthColumns[6] }}>
-          {sales[index].transaction_date}
-        </td>
+        {salesKeys.map((key, i) => (
+          <td
+            key={key}
+            style={{ maxWidth: widthColumns[i] }}
+            className="text-right"
+          >
+            {sales[index][key]}
+          </td>
+        ))}
       </tr>
     );
+  };
+
+  const renderHeadRow = () => {
+    return salesKeys.map((key, i) => (
+      <th key={key} style={{ minWidth: widthColumns[i] }}>
+        {key}
+        <Draggable
+          axis="x"
+          defaultClassName="DragHandle"
+          defaultClassNameDragging="DragHandleActive"
+          onDrag={(event, { deltaX }) =>
+            resizeColumn({
+              index: i,
+              deltaX,
+            })
+          }
+          position={{ x: 0, y: 0 }}
+        >
+          <FontAwesomeIcon icon="grip-lines-vertical" />
+        </Draggable>
+      </th>
+    ));
   };
 
   const resizeColumn = ({
@@ -70,127 +85,7 @@ const Home: NextPage<HomeProps> = (props) => {
           itemSize={10}
           header={
             <thead>
-              <tr>
-                <th style={{ minWidth: widthColumns[0] }}>
-                  id
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 0,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[1] }}>
-                  name
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 1,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[2] }}>
-                  sales_id
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 2,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[3] }}>
-                  item_id
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 3,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[4] }}>
-                  qty
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 4,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[5] }}>
-                  consumen_name
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 5,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-                <th style={{ minWidth: widthColumns[6] }}>
-                  transaction_date
-                  <Draggable
-                    axis="x"
-                    defaultClassName="DragHandle"
-                    defaultClassNameDragging="DragHandleActive"
-                    onDrag={(event, { deltaX }) =>
-                      resizeColumn({
-                        index: 6,
-                        deltaX,
-                      })
-                    }
-                    position={{ x: 0, y: 0 }}
-                  >
-                    <FontAwesomeIcon icon="grip-lines-vertical" />
-                  </Draggable>
-                </th>
-              </tr>
+              <tr>{renderHeadRow()}</tr>
             </thead>
           }
           row={Row}

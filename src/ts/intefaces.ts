@@ -1,4 +1,5 @@
 export interface Sale {
+  [key: string]: string | number;
   id: number;
   name: string;
   sales_id: string;
