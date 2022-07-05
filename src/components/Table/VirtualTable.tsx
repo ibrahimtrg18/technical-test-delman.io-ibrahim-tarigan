@@ -14,21 +14,24 @@ const VirtualTableContext = React.createContext<{
   footer: <></>,
 });
 
-const Inner = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
-  function Inner({ children, ...rest }, ref) {
-    const { header, footer, top } = useContext(VirtualTableContext);
+const Inner = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLProps<HTMLTableElement>
+>(function Inner({ children, ...rest }, ref) {
+  const { header, footer, top } = useContext(VirtualTableContext);
 
-    return (
-      <div {...rest} ref={ref}>
-        <table style={{ top, position: "absolute", width: "100%" }}>
-          {header}
-          <tbody>{children}</tbody>
-          {footer}
-        </table>
-      </div>
-    );
-  }
-);
+  return (
+    <table
+      {...rest}
+      ref={ref}
+      style={{ top, position: "absolute", width: "100%" }}
+    >
+      {header}
+      <tbody>{children}</tbody>
+      {footer}
+    </table>
+  );
+});
 
 /** The virtual table. It basically accepts all of the same params as the original FixedSizeList.*/
 function VirtualTable({

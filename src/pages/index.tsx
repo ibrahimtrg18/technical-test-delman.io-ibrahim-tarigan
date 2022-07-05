@@ -3,12 +3,13 @@ import { useMemo, useState } from "react";
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
 import Draggable from "react-draggable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import APIClient from "../apis/ApiClient";
 import { Sale } from "../ts/intefaces";
 import VirtualTable from "../components/Table/VirtualTable";
+import { isPureNumber } from "../helpers/common";
 
 import styles from "../styles/Index.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface HomeProps {
   sales: Array<Sale>;
@@ -27,8 +28,10 @@ const Home: NextPage<HomeProps> = (props) => {
         {salesKeys.map((key, i) => (
           <td
             key={key}
-            style={{ maxWidth: widthColumns[i] }}
-            className="text-right"
+            style={{ maxWidth: widthColumns[i], height: "36px" }}
+            className={`${
+              isPureNumber(sales[index][key]) ? "text-right" : ""
+            } `}
           >
             {sales[index][key]}
           </td>
@@ -80,9 +83,9 @@ const Home: NextPage<HomeProps> = (props) => {
       {sales && (
         <VirtualTable
           width={widthColumns.reduce((acc, v) => acc + v, 2)}
-          height={550}
+          height={500}
           itemCount={sales.length}
-          itemSize={10}
+          itemSize={40}
           header={
             <thead>
               <tr>{renderHeadRow()}</tr>
