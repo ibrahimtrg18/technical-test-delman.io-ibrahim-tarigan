@@ -10,6 +10,7 @@ export interface Sale {
 }
 
 export interface User {
+  [key: string]: string | number;
   id: string;
   name: string;
   email: string;

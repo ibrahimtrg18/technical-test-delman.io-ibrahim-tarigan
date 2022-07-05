@@ -1,9 +1,13 @@
 import type { GetServerSideProps, NextPage } from "next";
+import { useMemo, useState } from "react";
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
+import Draggable from "react-draggable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import APIClient from "../apis/ApiClient";
 import { User } from "../ts/intefaces";
 import VirtualTable from "../components/Table/VirtualTable";
+import { isPureNumber } from "../helpers/common";
 
 import styles from "../styles/Users.module.css";
 
@@ -13,44 +17,62 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = (props) => {
   const { users } = props;
+  const usersKeys = useMemo(() => Object.keys(users[0]), []);
+  const [widthColumns, setWidthColumns] = useState(
+    Array(usersKeys.length).fill(150)
+  );
 
   const Row = ({ index }: { index: number }) => {
     return (
       <tr>
-        <td style={{ minWidth: "150px" }}>{users[index].id}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].name}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].email}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].country_name}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].device_id}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].bitcoin_address}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].avatar}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].login_ip}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].active_device_mac}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].notes}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].age}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].referral_id}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].locale}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].favorite_music}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].phone_number}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].twitter_username}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].job}</td>
-        <td style={{ minWidth: "150px" }}>
-          {users[index].invoice_email_address}
-        </td>
-        <td style={{ minWidth: "150px" }}>{users[index].hmac_secret}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].favorite_quote}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].primary_color}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].secondary_color}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].material}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].shipping_address}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].zip_code}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].latitude}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].longitude}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].favorite_animal}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].app_version}</td>
-        <td style={{ minWidth: "150px" }}>{users[index].timezone}</td>
+        {usersKeys.map((key, i) => (
+          <td
+            key={key}
+            style={{ maxWidth: widthColumns[i], height: "36px" }}
+            className={`${
+              isPureNumber(users[index][key]) ? "text-right" : ""
+            } `}
+          >
+            {users[index][key]}
+          </td>
+        ))}
       </tr>
     );
+  };
+
+  const renderHeadRow = () => {
+    return usersKeys.map((key, i) => (
+      <th key={key} style={{ minWidth: widthColumns[i] }}>
+        {key}
+        <Draggable
+          axis="x"
+          defaultClassName="DragHandle"
+          defaultClassNameDragging="DragHandleActive"
+          onDrag={(event, { deltaX }) =>
+            resizeColumn({
+              index: i,
+              deltaX,
+            })
+          }
+          position={{ x: 0, y: 0 }}
+        >
+          <FontAwesomeIcon icon="grip-lines-vertical" />
+        </Draggable>
+      </th>
+    ));
+  };
+
+  const resizeColumn = ({
+    index,
+    deltaX,
+  }: {
+    index: number;
+    deltaX: number;
+  }) => {
+    const newWidthColumns = [...widthColumns];
+    newWidthColumns[index] = deltaX + widthColumns[index];
+
+    setWidthColumns(newWidthColumns);
   };
 
   return (
@@ -60,47 +82,12 @@ const Home: NextPage<HomeProps> = (props) => {
       </Head>
       <VirtualTable
         width="100%"
-        height={550}
+        height={500}
         itemCount={users.length}
-        itemSize={10}
+        itemSize={40}
         header={
           <thead>
-            <tr>
-              <th style={{ width: "150px" }}>id</th>
-              <th style={{ width: "150px" }}>name</th>
-              <th style={{ width: "150px" }}>email</th>
-              <th style={{ width: "150px" }}>country_name</th>
-              <th style={{ width: "150px" }}>device_id</th>
-              <th style={{ width: "150px" }}>bitcoin_address</th>
-              <th style={{ width: "150px" }}>avatar</th>
-              <th style={{ width: "150px" }}>login_ip</th>
-              <th style={{ width: "150px" }}>active_device_mac</th>
-              <th style={{ width: "150px" }}>notes</th>
-              <th style={{ width: "150px" }} className="text-right">
-                age
-              </th>
-              <th style={{ width: "150px" }} className="text-right">
-                referral_id
-              </th>
-              <th style={{ width: "150px" }}>locale</th>
-              <th style={{ width: "150px" }}>favorite_music</th>
-              <th style={{ width: "150px" }}>phone_number</th>
-              <th style={{ width: "150px" }}>twitter_username</th>
-              <th style={{ width: "150px" }}>job</th>
-              <th style={{ width: "150px" }}>invoice_email_address</th>
-              <th style={{ width: "150px" }}>hmac_secret</th>
-              <th style={{ width: "150px" }}>favorite_quote</th>
-              <th style={{ width: "150px" }}>primary_color</th>
-              <th style={{ width: "150px" }}>secondary_color</th>
-              <th style={{ width: "150px" }}>material</th>
-              <th style={{ width: "150px" }}>shipping_address</th>
-              <th style={{ width: "150px" }}>zip_code</th>
-              <th style={{ width: "150px" }}>latitude</th>
-              <th style={{ width: "150px" }}>longitude</th>
-              <th style={{ width: "150px" }}>favorite_animal</th>
-              <th style={{ width: "150px" }}>app_version</th>
-              <th style={{ width: "150px" }}>timezone</th>
-            </tr>
+            <tr>{renderHeadRow()}</tr>
           </thead>
         }
         row={Row}
