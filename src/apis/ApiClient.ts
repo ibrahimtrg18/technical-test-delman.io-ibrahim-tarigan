@@ -1,3 +1,5 @@
+import { CreateUser } from "../ts/intefaces";
+
 type Response = {
   message: string;
   data: any;
@@ -29,6 +31,27 @@ class ApiClient {
       return resJson;
     } catch (err) {
       throw err;
+    }
+  }
+
+  async createUser(data: CreateUser) {
+    try {
+      const res = await fetch(`${this.baseUrl}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const resJson: Response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(`user with email ${data.email} already exists`);
+      }
+
+      return resJson;
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 }

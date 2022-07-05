@@ -40,3 +40,8 @@ export interface User {
   app_version: string;
   timezone: string;
 }
+
+export interface CreateUser {
+  name: string;
+  email: string;
+}

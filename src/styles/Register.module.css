@@ -1,0 +1,15 @@
+.error {
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.form button {
+  display: block;
+  margin-left: auto;
+}
+
+.form button:hover,
+.form button:disabled,
+.form button:hover:disabled {
+  background-color: #d0d6dc;
+}

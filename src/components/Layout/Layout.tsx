@@ -48,6 +48,16 @@ const Layout: FC<LayoutProps> = (props) => {
         setMenuActive(this.title);
       },
     },
+    {
+      icon: "user-plus",
+      title: "Registration",
+      link: "/register",
+      heading: "User Registration",
+      subHeading: "Add new User",
+      onClick: function () {
+        setMenuActive(this.title);
+      },
+    },
   ];
 
   return (
