@@ -11,11 +11,11 @@ import { isPureNumber } from "../helpers/common";
 
 import styles from "../styles/Index.module.css";
 
-interface HomeProps {
+interface IndexPageProps {
   sales: Array<Sale>;
 }
 
-const Home: NextPage<HomeProps> = (props) => {
+const IndexPage: NextPage<IndexPageProps> = (props) => {
   const { sales } = props;
   const salesKeys = useMemo(() => Object.keys(sales[0]), []);
   const [widthColumns, setWidthColumns] = useState(
@@ -116,4 +116,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-export default Home;
+export default IndexPage;

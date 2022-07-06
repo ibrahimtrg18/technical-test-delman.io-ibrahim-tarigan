@@ -11,11 +11,11 @@ import { isPureNumber } from "../helpers/common";
 
 import styles from "../styles/Users.module.css";
 
-interface HomeProps {
+interface UsersPageProps {
   users: Array<User>;
 }
 
-const Home: NextPage<HomeProps> = (props) => {
+const UsersPage: NextPage<UsersPageProps> = (props) => {
   const { users } = props;
   const usersKeys = useMemo(() => Object.keys(users[0]), []);
   const [widthColumns, setWidthColumns] = useState(
@@ -114,4 +114,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-export default Home;
+export default UsersPage;

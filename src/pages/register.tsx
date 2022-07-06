@@ -11,13 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-interface HomeProps {
+interface RegisterPageProps {
   users: Array<User>;
 }
 
 type FormData = CreateUser;
 
-const Home: NextPage<HomeProps> = (props) => {
+const RegisterPage: NextPage<RegisterPageProps> = (props) => {
   const {
     register,
     handleSubmit,
@@ -128,4 +128,4 @@ const Home: NextPage<HomeProps> = (props) => {
   );
 };
 
-export default Home;
+export default RegisterPage;
