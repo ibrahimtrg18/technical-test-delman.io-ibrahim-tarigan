@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import { ChakraProvider } from "@chakra-ui/react";
 import { config, library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -10,11 +11,17 @@ config.autoAddCss = false;
 library.add(fas);
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
   return (
     <ChakraProvider>
-      <Layout>
+      {router.pathname !== "/_error" ? (
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      ) : (
         <Component {...pageProps} />
-      </Layout>
+      )}
     </ChakraProvider>
   );
 }
