@@ -1,0 +1,18 @@
+.error {
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.searchInputIcon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.searchInput {
+  padding-left: 2.5rem !important;
+}
+
+.searchInput::placeholder {
+}

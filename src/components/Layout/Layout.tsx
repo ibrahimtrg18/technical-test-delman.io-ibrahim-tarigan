@@ -58,6 +58,16 @@ const Layout: FC<LayoutProps> = (props) => {
         setMenuActive(this.title);
       },
     },
+    {
+      icon: "search",
+      title: "Search",
+      link: "/search",
+      heading: "Search User",
+      subHeading: "Search existing user",
+      onClick: function () {
+        setMenuActive(this.title);
+      },
+    },
   ];
 
   return (

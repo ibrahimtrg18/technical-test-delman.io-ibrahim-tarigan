@@ -47,3 +47,7 @@ export interface CreateUser {
   name: string;
   email: string;
 }
+
+export interface SearchUser {
+  email: string;
+}
