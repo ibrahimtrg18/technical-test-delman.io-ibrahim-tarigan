@@ -16,3 +16,11 @@
 
 .searchInput::placeholder {
 }
+
+.iconClose {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}

@@ -30,6 +30,7 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
   const { users } = props;
 
   const [user, setUser] = useState<User>();
+  const [openUserDetail, setOpenUserDetail] = useState(false);
 
   const {
     register,
@@ -62,6 +63,23 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
 
     return () => clearTimeout(timeoutId);
   }, [email]);
+
+  const renderUserDetail = () => {
+    if (!user) {
+      return null;
+    }
+
+    return Object.keys(user).map((key) => (
+      <Box key={key} display="flex">
+        <Text flex="0.4 1 40%" textTransform="capitalize">
+          {key.replaceAll("_", " ")}
+        </Text>
+        <Text flex="0.6 1 60%" wordBreak="break-all">
+          : {user[key]}
+        </Text>
+      </Box>
+    ));
+  };
 
   return (
     <Box>
@@ -132,11 +150,48 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
               <Heading size="lg">{user.name}</Heading>
               <Text color="gray.500">{user.email}</Text>
               <Divider margin="1rem 0" width="50%" />
-              <Button colorScheme="blue">View User Profile</Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => setOpenUserDetail(true)}
+              >
+                View User Profile
+              </Button>
             </Box>
           )}
         </form>
       </Box>
+      {openUserDetail && (
+        <Box
+          as="aside"
+          position="absolute"
+          top="0"
+          right="0"
+          height="100vh"
+          minWidth="35%"
+          width="35%"
+          bgColor="gray.50"
+          z-index="1"
+          padding="1rem"
+          boxShadow="0 0 20px 1px rgba(0,0,0,0.1)"
+        >
+          <FontAwesomeIcon icon="x" className={styles.iconClose} />
+          <Heading>User Details</Heading>
+          {!user ? (
+            <Text>User not found</Text>
+          ) : (
+            <Text>This is inquiry about user with email: {user.email}</Text>
+          )}
+          <Divider margin="1rem 0" />
+          <Box overflow="auto" height="77%">
+            {renderUserDetail()}
+          </Box>
+          <Divider />
+          <Box display="flex" justifyContent="space-between" padding="1rem 0">
+            <Button>Cancel</Button>
+            <Button colorScheme="red">Delete User</Button>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };
