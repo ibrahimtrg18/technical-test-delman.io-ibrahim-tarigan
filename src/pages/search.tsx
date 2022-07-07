@@ -9,15 +9,17 @@ import {
   Heading,
   Input,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
+import Modal from "../components/Modal/Modal";
 import APIClient from "../apis/ApiClient";
 import { SearchUser } from "../ts/intefaces";
 import { User } from "../ts/intefaces";
 
 import styles from "../styles/Search.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type FormData = SearchUser;
 
@@ -31,6 +33,7 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
 
   const [user, setUser] = useState<User>();
   const [openUserDetail, setOpenUserDetail] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -40,6 +43,7 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
   } = useForm<FormData>();
   const email = watch("email");
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onSubmit = handleSubmit(async (data) => {
     const user = users.find((user) => user.email === data.email);
@@ -55,6 +59,29 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
 
     setUser(user);
   });
+
+  const deleteUser = async (id: string) => {
+    try {
+      const apiClient = new APIClient();
+
+      const response = await apiClient.deleteUserById(id);
+
+      toast({
+        title: response.message,
+        position: "top-right",
+        status: "success",
+        isClosable: true,
+      });
+      router.push("/users");
+    } catch (err: any) {
+      toast({
+        title: err.message,
+        position: "top-right",
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
 
   useEffect(() => {
     timeoutId = setTimeout(() => {
@@ -188,10 +215,26 @@ const SearchPage: NextPage<SearchPageProps> = (props) => {
           <Divider />
           <Box display="flex" justifyContent="space-between" padding="1rem 0">
             <Button>Cancel</Button>
-            <Button colorScheme="red">Delete User</Button>
+            <Button colorScheme="red" onClick={onOpen}>
+              Delete User
+            </Button>
           </Box>
         </Box>
       )}
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Delete User"
+        body="Are you sure want delete this user ?"
+        footer={
+          <Box display="flex" gap="1rem">
+            <Button>Cancel</Button>
+            <Button colorScheme="red" onClick={() => deleteUser(user!.id)}>
+              Delete
+            </Button>
+          </Box>
+        }
+      />
     </Box>
   );
 };

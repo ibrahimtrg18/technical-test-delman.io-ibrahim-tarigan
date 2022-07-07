@@ -54,6 +54,23 @@ class ApiClient {
       throw new Error(err);
     }
   }
+
+  async deleteUserById(id: string) {
+    try {
+      const res = await fetch(`${this.baseUrl}/users/${id}`, {
+        method: "DELETE",
+      });
+      const resJson: Response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(resJson.message);
+      }
+
+      return resJson;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
 }
 
 export default ApiClient;
