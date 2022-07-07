@@ -28,7 +28,7 @@ table th {
   background-color: var(--chakra-colors-gray-200);
 }
 
-table td {
+table td div {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

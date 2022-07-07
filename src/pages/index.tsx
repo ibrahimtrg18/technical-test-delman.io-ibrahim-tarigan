@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
 import Draggable from "react-draggable";
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import APIClient from "../apis/ApiClient";
 import { Sale } from "../ts/intefaces";
 import VirtualTable from "../components/Table/VirtualTable";
-import { isPureNumber } from "../helpers/common";
+import Column from "../components/Column/Column";
 
 import styles from "../styles/Index.module.css";
 
@@ -26,15 +26,11 @@ const IndexPage: NextPage<IndexPageProps> = (props) => {
     return (
       <tr>
         {salesKeys.map((key, i) => (
-          <td
+          <Column
             key={key}
-            style={{ maxWidth: widthColumns[i], height: "36px" }}
-            className={`${
-              isPureNumber(sales[index][key]) ? "text-right" : ""
-            } `}
-          >
-            {sales[index][key]}
-          </td>
+            content={sales[index][key]}
+            widthColumn={widthColumns[i]}
+          />
         ))}
       </tr>
     );

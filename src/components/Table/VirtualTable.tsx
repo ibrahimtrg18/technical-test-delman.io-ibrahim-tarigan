@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FixedSizeList, FixedSizeListProps } from "react-window";
 
 /** Context for cross component communication */
@@ -46,6 +46,10 @@ function VirtualTable({
 } & Omit<FixedSizeListProps, "children" | "innerElementType">) {
   const listRef = useRef<FixedSizeList | null>();
   const [top, setTop] = useState(0);
+
+  useEffect(() => {
+    listRef.current?.scrollTo(1);
+  }, []);
 
   return (
     <VirtualTableContext.Provider value={{ top, setTop, header, footer }}>
